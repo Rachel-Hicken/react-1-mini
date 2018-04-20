@@ -13,24 +13,55 @@ class App extends Component {
   }
   
   updatePicture(val){
-    this.setState({picture: val.target.value})
+    this.setState({picture: val})
   }
 
   updateName(val){
-    this.setState({friend: val.target.value})
+    this.setState({name: val})
   }
   
+  addFriend(){
+    //
+    let newFriends = this.state.friend.slice()
+    console.log(newFriends)
+    let obj = {
+      picture: this.state.picture,
+      name: this.state.name
+    }
+    newFriends.push(obj);
+    this.setState({
+      friend: newFriends,
+      picture: '',
+      name: ''
+    });
+  }
+
   render() {
+    const friendsToDisplay = this.state.friend.map((friend, i)=>{
+      //display picture//display friend's name
+     return(
+     <div key={friend.name+i}>
+        <img src={friend.picture}/>
+        <span>{friend.name}</span>
+      </div>
+     );
+    })
+
+    console.log(friendsToDisplay);
     return (
       <div className="App">
-       <h3>Picture:</h3>
+       <h1>Picture:</h1>
         <input type="text" 
-        onChange={(event)=>this.updatePicture(event)}/>
+        onChange={(event)=>this.updatePicture(event.target.value)} value={this.state.picture}/>
 
-        <h3>Name:</h3>
+        <h1>Name:</h1>
         <input type ="text" 
-        onChange={(event)=>this.updateName(event)}/>
+        onChange={(event)=>this.updateName(event.target.value)} value = {this.state.name}/>
+        <button onClick={()=>this.addFriend()}>
+        Add Friend</button>
+        {friendsToDisplay}
       </div>
+      
     );
   }
 }
